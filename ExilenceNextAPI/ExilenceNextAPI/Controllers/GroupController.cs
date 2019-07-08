@@ -25,7 +25,7 @@ namespace ExilenceNextAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return Ok("Group Controller OK");
         }
