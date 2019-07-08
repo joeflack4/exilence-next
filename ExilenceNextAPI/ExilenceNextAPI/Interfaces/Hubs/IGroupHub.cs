@@ -7,7 +7,7 @@ namespace ExilenceNextAPI.Interfaces.Hubs
 {
     public interface IGroupHub
     {
-        Task Join(string group);
+        Task<bool> Join(string group);
         Task Patch(string data);
     }
 }

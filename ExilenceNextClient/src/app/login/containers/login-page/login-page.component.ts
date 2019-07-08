@@ -1,19 +1,13 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
+import { Observable, Subject } from 'rxjs';
+import 'rxjs/add/operator/takeUntil';
 import { ApplicationSessionDetails } from '../../../shared/interfaces/application-session-details.interface';
 import { ApplicationSession } from '../../../shared/interfaces/application-session.interface';
-import { Observable, Subject } from 'rxjs';
-import * as applicationReducer from './../../../store/application/application.reducer';
+import { selectApplicationSessionCharacterLeagues, selectApplicationSessionLoading, selectApplicationSessionTradeLeagues, selectApplicationSessionValidated } from '../../../store/application/application.selectors';
 import * as applicationActions from './../../../store/application/application.actions';
-import 'rxjs/add/operator/takeUntil';
-import {
-  selectApplicationSessionValidated,
-  selectApplicationSessionCharacterLeagues,
-  selectApplicationSessionLoading,
-  selectApplicationSessionTradeLeagues
-} from '../../../store/application/application.selectors';
+
 
 @Component({
   selector: 'app-login-page',

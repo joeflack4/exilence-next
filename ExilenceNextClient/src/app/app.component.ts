@@ -7,9 +7,10 @@ import { skip } from 'rxjs/operators';
 import { AppState } from './app.states';
 import { ElectronService } from './core/providers/electron.service';
 import { JsonService } from './core/providers/json.service';
+import { SignalrService } from './core/providers/signalr.service';
+import { StorageService } from './core/providers/storage.service';
 import { BrowserHelper } from './shared/helpers/browser.helper';
 import * as applicationActions from './store/application/application.actions';
-import { StorageService } from './core/providers/storage.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class AppComponent {
     private translate: TranslateService,
     private appStore: Store<AppState>,
     private jsonService: JsonService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private signalrService: SignalrService
   ) {
 
     // this.jsonService.testJsonPatch();

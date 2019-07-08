@@ -7,8 +7,10 @@ import { HeaderPageComponent } from './containers/header-page/header-page.compon
 import { NotificationSidebarPageComponent } from './containers/notification-sidebar-page/notification-sidebar-page.component';
 import { CookieService } from './providers/cookie.service';
 import { ExternalService } from './providers/external.service';
+import { GroupService } from './providers/group.service';
 import { JsonService } from './providers/json.service';
 import { SessionService } from './providers/session.service';
+import { SignalrService } from './providers/signalr.service';
 
 
 @NgModule({
@@ -24,7 +26,7 @@ import { SessionService } from './providers/session.service';
   ],
   declarations: [HeaderPageComponent, NotificationSidebarPageComponent, NotificationListComponent],
   exports: [HeaderPageComponent, NotificationSidebarPageComponent, NotificationListComponent],
-  providers: [CookieService, SessionService, ExternalService, JsonService]
+  providers: [CookieService, SessionService, ExternalService, JsonService, SignalrService, GroupService]
 })
 
 export class CoreModule { }

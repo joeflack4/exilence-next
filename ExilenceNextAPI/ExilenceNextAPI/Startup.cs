@@ -77,7 +77,7 @@ namespace ExilenceNextAPI
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<GroupHub>("api/hubs/group", options =>
+                routes.MapHub<GroupHub>("/api/hubs/group", options =>
                 {
                     //options.ApplicationMaxBufferSize = 50 * 1024 * 1024;
                     //options.TransportMaxBufferSize = 50 * 1024 * 1024;

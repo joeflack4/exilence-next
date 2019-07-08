@@ -9,11 +9,14 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ExilenceNextAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class GroupController : Controller
     {
 
         IHubContext<GroupHub, IGroupHub> _groupHub;
 
+        [HttpGet]
         public IActionResult Index()
         {
             return Ok("Group Controller OK");

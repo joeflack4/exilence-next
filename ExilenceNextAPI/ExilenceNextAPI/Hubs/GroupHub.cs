@@ -1,5 +1,6 @@
 ﻿using ExilenceNextAPI.Interfaces.Hubs;
 using ExilenceNextAPI.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -20,10 +21,11 @@ namespace ExilenceNextAPI.Hubs
             _groupService = groupService;
         }
 
-        public async Task Join(string group)
+        public async Task<bool> Join(string group)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, group);
             await _groupService.JoinGroup(Context.ConnectionId, group);
+            return true;
         }
 
         public Task Patch(string data)
