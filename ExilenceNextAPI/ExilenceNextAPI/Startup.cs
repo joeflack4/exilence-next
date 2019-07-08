@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ExilenceNextAPI.Hubs;
+using ExilenceNextAPI.Interfaces.Repositories;
+using ExilenceNextAPI.Interfaces.Services;
+using ExilenceNextAPI.Repositories;
+using ExilenceNextAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ExilenceNextAPI
 {
@@ -26,11 +25,41 @@ namespace ExilenceNextAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+            services.AddSignalR(hubOptions =>
+            {
+                //hubOptions.HandshakeTimeout = TimeSpan.FromSeconds(40);
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyHeader();
+                        builder.WithOrigins("http://localhost:4200", "http://exilence.app");
+                        builder.AllowAnyMethod();
+                        builder.AllowCredentials();
+                    });
+            });
+
+
+            services.AddScoped<IGroupService, GroupService>();
+
+            services.AddScoped<IGroupRepository, GroupRepository>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -43,6 +72,17 @@ namespace ExilenceNextAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseCors("AllowAlL");
+            app.UseFileServer();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<GroupHub>("api/hubs/group", options =>
+                {
+                    //options.ApplicationMaxBufferSize = 50 * 1024 * 1024;
+                    //options.TransportMaxBufferSize = 50 * 1024 * 1024;
+                });
+            });
         }
     }
 }
