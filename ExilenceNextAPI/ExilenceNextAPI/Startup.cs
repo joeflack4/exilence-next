@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExilenceNextAPI
 {
@@ -43,6 +44,8 @@ namespace ExilenceNextAPI
                         builder.AllowCredentials();
                     });
             });
+
+            services.AddDbContext<ExilenceContext>(options => options.UseSqlServer(""));
 
 
             services.AddScoped<IGroupService, GroupService>();

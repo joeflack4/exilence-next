@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ExilenceNextAPI.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace ExilenceNextAPI.Interfaces.Repositories
     public interface IGroupRepository
     {
         Task JoinGroup(string ConnectionId, string GroupName);
+        Task<Connection> GetConnection(string connectionId);
     }
 }

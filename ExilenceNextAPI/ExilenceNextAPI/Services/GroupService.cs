@@ -1,5 +1,6 @@
 ﻿using ExilenceNextAPI.Interfaces.Repositories;
 using ExilenceNextAPI.Interfaces.Services;
+using ExilenceNextAPI.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,17 @@ namespace ExilenceNextAPI.Services
         {
             _configuration = configuration;
             _groupRepository = groupRepository;
+        }
+
+        public async Task<ConnectionModel> GetConnection(string connectionId)
+        {
+            var connection = await _groupRepository.GetConnection(connectionId);
+            return new ConnectionModel()
+            {
+                ConnectionId = connection.ConnectionId,
+                Connected = connection.Connected,
+                LastSeen = connection.LastSeen
+            };
         }
 
         public async Task JoinGroup(string ConnectionId, string GroupName)

@@ -57,10 +57,9 @@ export class AppComponent {
       const previousState = state[0] as GroupState;
       const newState = state[1] as GroupState;
 
-      const operations = compare(previousState, newState);
+      const patch = compare(previousState, newState);
 
-      const patch = { operations };
-      console.log('Patch: ', patch);
+      this.jsonService.patch(patch).subscribe(res => console.log(res));
 
     });
   }
