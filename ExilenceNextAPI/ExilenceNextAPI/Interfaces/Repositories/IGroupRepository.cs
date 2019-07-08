@@ -11,5 +11,7 @@ namespace ExilenceNextAPI.Interfaces.Repositories
     {
         Task JoinGroup(string ConnectionId, string GroupName);
         Task<Connection> GetConnection(string connectionId);
+        Task RemoveConnection(string ConnectionId);
+        Task AddConnection(Connection connection);
     }
 }

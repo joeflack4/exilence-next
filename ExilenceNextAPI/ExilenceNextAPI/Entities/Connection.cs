@@ -10,6 +10,7 @@ namespace ExilenceNextAPI.Entities
     {
         [Key]
         public string ConnectionId { get; set; }
+        public string Group { get; set; }
         public DateTime Connected { get; set; }
         public DateTime LastSeen { get; set; }
     }

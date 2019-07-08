@@ -32,5 +32,20 @@ namespace ExilenceNextAPI.Hubs
         {
             throw new NotImplementedException();
         }
+
+
+        public override Task OnConnectedAsync()
+        {
+            _groupService.AddConnection(Context.ConnectionId);
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            _groupService.RemoveConnection(Context.ConnectionId);
+            return base.OnDisconnectedAsync(exception);
+        }
+
+
     }
 }

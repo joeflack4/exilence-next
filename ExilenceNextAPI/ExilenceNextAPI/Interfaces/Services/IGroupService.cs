@@ -9,6 +9,8 @@ namespace ExilenceNextAPI.Interfaces.Services
     public interface IGroupService
     {
         Task JoinGroup(string ConnectionId, string GroupName);
-        Task<ConnectionModel> GetConnection(string connectionId);
+        Task<ConnectionModel> GetConnection(string ConnectionId);
+        Task RemoveConnection(string ConnectionId);
+        Task AddConnection(string ConnectionId);
     }
 }

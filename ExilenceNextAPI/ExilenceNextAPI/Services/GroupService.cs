@@ -1,4 +1,5 @@
-﻿using ExilenceNextAPI.Interfaces.Repositories;
+﻿using ExilenceNextAPI.Entities;
+using ExilenceNextAPI.Interfaces.Repositories;
 using ExilenceNextAPI.Interfaces.Services;
 using ExilenceNextAPI.Models;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ namespace ExilenceNextAPI.Services
         {
             _configuration = configuration;
             _groupRepository = groupRepository;
-        }
+        }        
 
         public async Task<ConnectionModel> GetConnection(string connectionId)
         {
@@ -34,6 +35,22 @@ namespace ExilenceNextAPI.Services
         public async Task JoinGroup(string ConnectionId, string GroupName)
         {
             await _groupRepository.JoinGroup(ConnectionId, GroupName);
+        }
+
+        public async Task AddConnection(string ConnectionId)
+        {
+            var connection = new Connection()
+            {
+                ConnectionId = ConnectionId,
+                Connected = DateTime.UtcNow,
+                LastSeen = DateTime.UtcNow,
+            };
+            await _groupRepository.AddConnection(connection);
+        }
+
+        public async Task RemoveConnection(string ConnectionId)
+        {
+            await _groupRepository.RemoveConnection(ConnectionId);
         }
     }
 }

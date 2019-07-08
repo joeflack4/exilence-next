@@ -10,6 +10,11 @@ namespace ExilenceNextAPI
 
         public DbSet<Connection> Connections { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
+
 
     }
 }
