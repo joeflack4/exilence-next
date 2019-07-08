@@ -1,0 +1,18 @@
+@import "./../../../../../assets/styles/variables";
+
+.top-bar {
+    height: $top-bar-height;
+    margin-bottom: $main-margin;
+    .config {
+        &.specific-config {
+            float: left;
+            width: calc(100% - #{$global-config-width})
+        }
+        &.global-config {
+            width: $global-config-width;
+            float: right;
+            display: flex;
+            justify-content: flex-end;
+        }
+   }
+}

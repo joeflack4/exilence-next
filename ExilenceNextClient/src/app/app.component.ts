@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TranslateService } from '@ngx-translate/core';
 import { compare } from 'fast-json-patch';
 import * as moment from 'moment';
+import { skip } from 'rxjs/operators';
+
+import { AppState } from './app.states';
 import { pairwise, skip, startWith } from 'rxjs/operators';
 import { AppState, GroupState } from './app.states';
+import { SnapshotProgressSnackbarComponent } from './core/components/snapshot-progress-snackbar/snapshot-progress-snackbar.component';
 import { ElectronService } from './core/providers/electron.service';
 import { JsonService } from './core/providers/json.service';
+import { StorageService } from './core/providers/storage.service';
 import { SignalrService } from './core/providers/signalr.service';
 import { StorageService } from './core/providers/storage.service';
 import { BrowserHelper } from './shared/helpers/browser.helper';
@@ -21,7 +26,10 @@ import { getGroupState } from './store/group/group.selectors';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  @ViewChild('progressSnackbar', undefined) progressSnackbar: SnapshotProgressSnackbarComponent;
+
   constructor(public electronService: ElectronService,
     private storageMap: StorageMap,
     private translate: TranslateService,
@@ -62,5 +70,9 @@ export class AppComponent {
       this.jsonService.patch(patch).subscribe(res => console.log(res));
 
     });
+  }
+
+  ngOnInit() {
+    this.progressSnackbar.openSnackBar();
   }
 }
