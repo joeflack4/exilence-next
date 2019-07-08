@@ -32,14 +32,16 @@ namespace ExilenceNextAPI.Controllers
 
 
         [HttpPatch]
-        public async Task<IActionResult> Patch(string connectionId, [FromBody] JsonPatchDocument<GroupStateModel> data)
+        public async Task<IActionResult> Patch([FromBody] JsonPatchDocument<GroupStateModel> data)
         {
+            var connectionId = Request.Headers["ConnectionId"].ToString();
             var connection = await _groupService.GetConnection(connectionId);
 
             var oldState = new GroupStateModel() {};
             data.ApplyTo(oldState);
 
-            _groupHub.Clients.GroupExcept(connection.ConnectionId, new List<string> { connectionId });
+            // Dosen't work with mocked data
+            //_groupHub.Clients.GroupExcept(connection.ConnectionId, new List<string> { connectionId });
 
             return Ok();
 

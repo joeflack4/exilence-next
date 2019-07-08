@@ -11,6 +11,6 @@ export class JsonService {
   ) { }
 
   patch(patch) {
-    return this.http.patch('https://localhost:44327/api/group', patch);
+    return this.http.patch('https://localhost:44327/api/group', patch, { headers: { "ConnectionId": "f7919e96-01d4-48e7-a6f6-89180929c041" } });
   }
 }

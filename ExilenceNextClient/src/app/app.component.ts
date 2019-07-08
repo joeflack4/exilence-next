@@ -4,21 +4,18 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { TranslateService } from '@ngx-translate/core';
 import { compare } from 'fast-json-patch';
 import * as moment from 'moment';
-import { skip } from 'rxjs/operators';
-
-import { AppState } from './app.states';
 import { pairwise, skip, startWith } from 'rxjs/operators';
 import { AppState, GroupState } from './app.states';
 import { SnapshotProgressSnackbarComponent } from './core/components/snapshot-progress-snackbar/snapshot-progress-snackbar.component';
 import { ElectronService } from './core/providers/electron.service';
 import { JsonService } from './core/providers/json.service';
-import { StorageService } from './core/providers/storage.service';
 import { SignalrService } from './core/providers/signalr.service';
 import { StorageService } from './core/providers/storage.service';
 import { BrowserHelper } from './shared/helpers/browser.helper';
 import * as applicationActions from './store/application/application.actions';
 import * as groupActions from './store/group/group.actions';
 import { getGroupState } from './store/group/group.selectors';
+
 
 
 @Component({
