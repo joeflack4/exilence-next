@@ -45,14 +45,10 @@ namespace ExilenceNextAPI
                     });
             });
 
-            services.AddDbContext<ExilenceContext>(options => options.UseSqlServer(""));
-
+            services.AddDbContext<ExilenceContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IGroupService, GroupService>();
-
             services.AddScoped<IGroupRepository, GroupRepository>();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
