@@ -62,9 +62,9 @@ export class AppComponent implements OnInit {
       const previousState = state[0] as GroupState;
       const newState = state[1] as GroupState;
 
-      const patch = compare(previousState, newState);
+      const operations = compare(previousState, newState);
 
-      this.jsonService.patch(patch).subscribe(res => console.log(res));
+      this.groupStore.dispatch(new groupActions.Patch({ operations }));
 
     });
   }

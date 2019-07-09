@@ -9,7 +9,9 @@
     "COOKIE_NOT_SET_TITLE": "Cookie could not be set",
     "COOKIE_NOT_SET_DESC": "An error occured when setting the cookie",
     "SESSION_NOT_VALID_TITLE": "The session is not valid",
-    "SESSION_NOT_VALID_DESC": "The session could not be validated, please verify that your account and session id is correct"
+    "SESSION_NOT_VALID_DESC": "The session could not be validated, please verify that your account and session id is correct",
+    "COULD_NOT_PATCH_TITLE": "Could not patch",
+    "COULD_NOT_PATCH_DESC": "An error occured when we tried to patch"
   },
   "INFORMATION": {
     "COOKIE_SET_TITLE": "Created a session cookie",

@@ -1,7 +1,4 @@
-import '../polyfills';
-import 'reflect-metadata';
-
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
@@ -12,7 +9,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import 'reflect-metadata';
+import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -24,7 +22,10 @@ import { SessionResolver } from './core/resolvers/session.resolver';
 import { LoginModule } from './login/login.module';
 import { WebviewDirective } from './shared/directives/webview.directive';
 import { ApplicationEffects } from './store/application/application.effects';
+import { GroupEffects } from './store/group/group.effects';
 import { metaReducers, reducers } from './store/reducers';
+
+
 
 // NG Translate
 // AoT requires an exported function for factories
@@ -56,12 +57,13 @@ export function HttpLoaderFactory(http: HttpClient) {
       IDBNoWrap: true
     }),
     StoreModule.forRoot(reducers, { metaReducers }),
-    // StoreDevtoolsModule.instrument({
-    //   maxAge: 25, // Retains last 25 states
-    //   logOnly: false // Restrict extension to log-only mode
-    // }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: false // Restrict extension to log-only mode
+    }),
     EffectsModule.forRoot([
-      ApplicationEffects
+      ApplicationEffects,
+      GroupEffects
     ])
   ],
   providers: [ElectronService, ErrorHandler, SessionResolver, StorageService,
