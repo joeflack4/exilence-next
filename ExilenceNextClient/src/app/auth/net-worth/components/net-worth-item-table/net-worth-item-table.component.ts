@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { ItemHelper } from './../../../../shared/helpers/item.helper';
 import { Observable } from 'rxjs';
-import { Tab } from '../../../../shared/interfaces/stash.interface';
+import { Tab, CompactTab } from '../../../../shared/interfaces/stash.interface';
 import { TabSelection } from '../../../../shared/interfaces/tab-selection.interface';
 import { PricedItem } from '../../../../shared/interfaces/priced-item.interface';
 import { TableItem } from '../../../../shared/interfaces/table-item.interface';
+import { TableHelper } from '../../../../shared/helpers/table.helper';
 
 @Component({
   selector: 'app-net-worth-item-table',
@@ -18,6 +19,7 @@ export class NetWorthItemTableComponent implements OnInit {
   @ViewChild(MatSort, undefined) sort: MatSort;
   @ViewChild(MatPaginator, undefined) paginator: MatPaginator;
 
+  private filterValue = '';
   public stashtabs$: Observable<Tab[]>;
   public pageSizeOptions: number[] = [5, 10, 25, 100];
   public displayedColumns: string[] = ['icon', 'name', 'tab', 'links', 'quality', 'level', 'corrupted',
@@ -30,17 +32,24 @@ export class NetWorthItemTableComponent implements OnInit {
   }
 
   updateTable(newData: TableItem[]) {
-    const data = [... newData];
+    const data = [...newData];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filter = this.filterValue;
   }
 
   applyFilter(filterValue: string) {
+    this.filterValue = filterValue;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   isDivinationCard(icon: string) {
     return ItemHelper.isDivinationCard(icon);
   }
+
+  getTabNames(tabs: CompactTab[]) {
+    return TableHelper.getTabNames(tabs);
+  }
+
 }
