@@ -1,5 +1,15 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatProgressBarModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatSidenavModule,
+  MatToolbarModule,
+} from '@angular/material';
 import { NgPipesModule } from 'ngx-pipes';
 import { SharedModule } from '../shared/shared.module';
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
@@ -23,6 +33,7 @@ import { SignalrService } from './providers/signalr.service';
     MatToolbarModule,
     MatSidenavModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
     NgPipesModule,
