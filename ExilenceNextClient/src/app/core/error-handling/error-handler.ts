@@ -4,28 +4,35 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ErrorHandler {
-    constructor(
-        public snackbar: MatSnackBar,
-        private translateService: TranslateService
-    ) { }
+  constructor(
+    public snackbar: MatSnackBar,
+    private translateService: TranslateService
+  ) { }
 
-    public handleError(err: any) {
-        switch (err.status) {
-            case 403: {
-                err.message = this.translateService.instant('ERROR.UNAUTHORIZED');
-                break;
-            }
+  public handleError(err: any) {
+    console.log(err);
+    switch (err.status) {
 
-            case 404: {
-                err.message = this.translateService.instant('ERROR.NOT_FOUND');
-                break;
-            }
+      case 0: {
+        err.message = this.translateService.instant('ERROR.UNREACHABLE');
+        break;
+      }
 
-            default: {
-                break;
-            }
-        }
+      case 403: {
+        err.message = this.translateService.instant('ERROR.UNAUTHORIZED');
+        break;
+      }
 
-        this.snackbar.open(err.message, 'close');
+      case 404: {
+        err.message = this.translateService.instant('ERROR.NOT_FOUND');
+        break;
+      }
+
+      default: {
+        break;
+      }
     }
+
+    this.snackbar.open(err.message, 'close');
+  }
 }
