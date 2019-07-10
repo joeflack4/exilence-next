@@ -30,5 +30,6 @@ export interface NetWorthState {
 }
 
 export interface GroupState {
+  connectionId: string;
   group: string;
 }

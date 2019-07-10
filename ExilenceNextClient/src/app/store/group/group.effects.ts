@@ -19,7 +19,6 @@ export class GroupEffects {
 
   patch$ = createEffect(() => this.actions$.pipe(
     ofType(groupActions.GroupActionTypes.Patch),
-    tap(t => console.log('TAPPED')),
     mergeMap((res: any) =>
       this.jsonService.patch(res.payload)
         .pipe(

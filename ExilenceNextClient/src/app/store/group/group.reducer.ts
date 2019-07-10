@@ -8,10 +8,18 @@ export function reducer(
 ): GroupState {
 
   switch (action.type) {
+
     case GroupActionTypes.SetName: {
       return {
         ...state,
         group: action.payload.name
+      };
+    }
+
+    case GroupActionTypes.SetConnectionId: {
+      return {
+        ...state,
+        connectionId: action.payload.connectionId
       };
     }
 

@@ -7,6 +7,10 @@ export enum GroupActionTypes {
   SetNameSuccess = '[Group] Set Name Success',
   SetNameFail = '[Group] Set Name Fail',
 
+  SetConnectionId = '[Group] Set Connection Id',
+  SetConnectionIdSuccess = '[Group] Set Connection Id',
+  SetConnectionIdFail = '[Group] Set Connection Id',
+
   Patch = '[Group] Patch',
   Patchuccess = '[Group] Patch Success',
   PatchFail = '[Group] Patch Fail',
@@ -31,6 +35,21 @@ export class SetNameFail implements Action {
   constructor(public payload: { title: string, message: string }) { }
 }
 
+export class SetConnectionId implements Action {
+  readonly type = GroupActionTypes.SetConnectionId;
+  constructor(public payload: { connectionId: string }) { }
+}
+
+export class SetConnectionIdSuccess implements Action {
+  readonly type = GroupActionTypes.SetConnectionIdSuccess;
+  constructor(public payload: { connectionId: string }) { }
+}
+
+export class SetConnectionIdFail implements Action {
+  readonly type = GroupActionTypes.SetConnectionIdFail;
+  constructor(public payload: { title: string, message: string }) { }
+}
+
 export class Patch implements Action {
   readonly type = GroupActionTypes.Patch;
   constructor(public payload: { operations: Operation[] }) { }
@@ -47,4 +66,7 @@ export class PatchFail implements Action {
 }
 
 
-export type GroupActions = SetName | SetNameSuccess | SetNameFail;
+export type GroupActions =
+  SetName | SetNameSuccess | SetNameFail |
+  SetConnectionId | SetConnectionIdSuccess | SetConnectionIdFail |
+  Patch | PatchSuccess | PatchFail;
