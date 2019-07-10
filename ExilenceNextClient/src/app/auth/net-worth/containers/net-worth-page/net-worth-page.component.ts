@@ -15,7 +15,7 @@ import { ChartSeries } from '../../../../shared/interfaces/chart.interface';
 import { Snapshot } from '../../../../shared/interfaces/snapshot.interface';
 import { CompactTab, Tab } from '../../../../shared/interfaces/stash.interface';
 import { TabSelection } from '../../../../shared/interfaces/tab-selection.interface';
-import { selectApplicationSessionLeague, selectApplicationSessionModuleIndex } from '../../../../store/application/application.selectors';
+import { selectApplicationSessionLeague, selectApplicationSessionModuleIndex, selectApplicationSession } from '../../../../store/application/application.selectors';
 import {
   selectSnapshotsByLeague,
   selectTabsByIds,
@@ -31,6 +31,7 @@ import { TableHelper } from '../../../../shared/helpers/table.helper';
 import { PricedItem } from '../../../../shared/interfaces/priced-item.interface';
 import { NetWorthItemTableComponent } from '../../components/net-worth-item-table/net-worth-item-table.component';
 import { TableItem } from '../../../../shared/interfaces/table-item.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-net-worth-page',
@@ -55,8 +56,11 @@ export class NetWorthPageComponent implements OnInit, OnDestroy {
 
   public graphLoading = false;
   public selectedIndex = 0;
-  public chartData: ChartSeries[] = [];
+  public tabChartData: ChartSeries[] = [];
+  public playerChartData: ChartSeries[] = [];
   public tableData: TableItem[] = [];
+  public session: ApplicationSession;
+
   public colorScheme = {
     domain: ['#e91e63', '#f2f2f2', '#FFEE93', '#8789C0', '#45F0DF']
   };
@@ -70,7 +74,8 @@ export class NetWorthPageComponent implements OnInit, OnDestroy {
     private storageMap: StorageMap,
     private snapshotService: SnapshotService,
     private itemPricingService: ItemPricingService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private translateService: TranslateService
   ) {
 
     this.appStore.select(selectApplicationSessionLeague).takeUntil(this.destroy$).subscribe((league: string) => {
@@ -85,7 +90,9 @@ export class NetWorthPageComponent implements OnInit, OnDestroy {
     this.snapshots$.takeUntil(this.destroy$).subscribe((snapshots: Snapshot[]) => {
       this.snapshots = snapshots;
       if (this.selectedCompactTabs !== undefined) {
-        this.chartData = SnapshotHelper.formatSnapshotsForChart(this.selectedCompactTabs, this.snapshots);
+        this.tabChartData = SnapshotHelper.formatSnapshotsForTabChart(this.selectedCompactTabs, this.snapshots);
+        this.playerChartData = SnapshotHelper.formatSnapshotsForPlayerChart([this.translateService.instant('NETWORTH.TOTAL_VALUE')],
+          this.selectedCompactTabs, this.snapshots);
       }
       if (this.selectedTabs !== undefined) {
         this.tableData = TableHelper.formatTabsForTable(this.selectedTabs);
@@ -121,7 +128,9 @@ export class NetWorthPageComponent implements OnInit, OnDestroy {
           });
       }).subscribe((tabs: Tab[]) => {
         this.selectedTabs = tabs;
-        this.chartData = SnapshotHelper.formatSnapshotsForChart(tabs, this.snapshots);
+        this.tabChartData = SnapshotHelper.formatSnapshotsForTabChart(tabs, this.snapshots);
+        this.playerChartData = SnapshotHelper.formatSnapshotsForPlayerChart([this.translateService.instant('NETWORTH.TOTAL_VALUE')],
+          tabs, this.snapshots);
         this.tableData = TableHelper.formatTabsForTable(tabs);
         this.itemTable.updateTable(this.tableData);
       });
