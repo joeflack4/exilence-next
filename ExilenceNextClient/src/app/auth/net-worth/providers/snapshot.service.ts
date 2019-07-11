@@ -57,7 +57,7 @@ export class SnapshotService implements OnDestroy {
         ofType(NetWorthActionTypes.LoadStateFromStorageFail,
           NetWorthActionTypes.LoadStateFromStorageSuccess)).first())
       .takeUntil(this.destroy$).subscribe(() => {
-        this.checkIfReady();
+        // this.checkIfReady();
       });
   }
 

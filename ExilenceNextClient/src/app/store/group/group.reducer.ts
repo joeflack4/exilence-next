@@ -16,10 +16,10 @@ export function reducer(
       };
     }
 
-    case GroupActionTypes.SetConnectionId: {
+    case GroupActionTypes.AddConnectionId: {
       return {
         ...state,
-        connectionId: action.payload.connectionId
+        group: action.payload.connectionId
       };
     }
 
