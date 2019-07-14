@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SignalrService } from './signalr.service';
+import { Operation } from 'fast-json-patch';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +9,15 @@ import { Injectable } from '@angular/core';
 export class JsonService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private signalR: SignalrService
   ) { }
 
-  patch(patch) {
-    return this.http.patch('https://localhost:44327/api/group', patch, { headers: { "ConnectionId": "f7919e96-01d4-48e7-a6f6-89180929c041" } });
+  patch(patch: Operation[]) {
+    return this.http.patch(
+      'https://localhost:44327/api/group',
+      patch,
+      { headers: { 'ConnectionId': this.signalR.connectionId } }
+    );
   }
 }

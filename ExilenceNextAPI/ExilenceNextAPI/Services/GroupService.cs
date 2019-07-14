@@ -34,7 +34,7 @@ namespace ExilenceNextAPI.Services
 
         public async Task JoinGroup(string ConnectionId, string GroupName)
         {
-            await _groupRepository.JoinGroup(ConnectionId, GroupName);
+            await _groupRepository.JoinGroupAsync(ConnectionId, GroupName);
         }
 
         public async Task AddConnection(string ConnectionId)

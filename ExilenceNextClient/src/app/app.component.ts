@@ -4,7 +4,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { TranslateService } from '@ngx-translate/core';
 import { compare } from 'fast-json-patch';
 import * as moment from 'moment';
-import { pairwise, skip, startWith } from 'rxjs/operators';
+import { pairwise, skip, startWith, delay } from 'rxjs/operators';
 import { AppState, GroupState } from './app.states';
 import { SnapshotProgressSnackbarComponent } from './core/components/snapshot-progress-snackbar/snapshot-progress-snackbar.component';
 import { ElectronService } from './core/providers/electron.service';
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
     });
 
     // generate and send patch of differences on updates
-    this.groupStore.select(getGroupState).pipe(startWith({}), pairwise()).subscribe((state) => {
+    this.groupStore.select(getGroupState).pipe(delay(5000), startWith({}), pairwise()).subscribe((state) => {
       const previousState = state[0] as GroupState;
       const newState = state[1] as GroupState;
 

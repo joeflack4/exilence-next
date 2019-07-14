@@ -25,17 +25,21 @@ namespace ExilenceNextAPI.Repositories
         public async Task AddConnection(Connection connection)
         {
             await _context.Connections.AddAsync(connection);
+            await _context.SaveChangesAsync();
         }
 
         public async Task RemoveConnection(string connectionId)
         {
             var connection = await GetConnection(connectionId);
             _context.Connections.Remove(connection);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task JoinGroup(string ConnectionId, string GroupName)
+        public async Task JoinGroupAsync(string connectionId, string group)
         {
-            await Task.Delay(100);
+            var connection = await _context.Connections.FirstOrDefaultAsync(c => c.ConnectionId == connectionId);
+            connection.Group = group;
+            await _context.SaveChangesAsync();
         }
     }
 }

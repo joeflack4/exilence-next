@@ -10,6 +10,7 @@ import { AppConfig } from '../../../environments/environment';
 export class SignalrService {
 
   public _hubConnection: HubConnection | undefined;
+  public connectionId = '';
 
   constructor() {
 
@@ -27,6 +28,8 @@ export class SignalrService {
 
         console.log('[SignalR] Successfully established connection!');
         // this.joinParty(this.party.name, this.party.spectatorCode, this.currentPlayer);
+
+        this._hubConnection.invoke('getConnectionId').then(connectionId => this.connectionId = connectionId);
 
         this._hubConnection.invoke('join', 'development')
           .then(result => console.log('[SignalR] Action: Join, Group: "development", Result: ', result));

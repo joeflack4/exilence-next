@@ -9,8 +9,8 @@ namespace ExilenceNextAPI.Interfaces.Repositories
 {
     public interface IGroupRepository
     {
-        Task JoinGroup(string ConnectionId, string GroupName);
         Task<Connection> GetConnection(string connectionId);
+        Task JoinGroupAsync(string connectionId, string group);
         Task RemoveConnection(string ConnectionId);
         Task AddConnection(Connection connection);
     }

@@ -20,7 +20,7 @@ export class GroupEffects {
   patch$ = createEffect(() => this.actions$.pipe(
     ofType(groupActions.GroupActionTypes.Patch),
     mergeMap((res: any) =>
-      this.jsonService.patch(res.payload)
+      this.jsonService.patch(res.payload.operations)
         .pipe(
           map(() => {
             return new groupActions.PatchSuccess();
