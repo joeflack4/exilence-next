@@ -38,7 +38,6 @@ namespace ExilenceNextAPI.Repositories
         public async Task JoinGroupAsync(string connectionId, string group)
         {
             var connection = await _context.Connections.FirstOrDefaultAsync(c => c.ConnectionId == connectionId);
-            connection.Group = group;
             await _context.SaveChangesAsync();
         }
     }
