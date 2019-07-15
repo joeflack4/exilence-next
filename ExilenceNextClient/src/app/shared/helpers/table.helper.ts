@@ -27,6 +27,7 @@ export class TableHelper {
                     corrupted: pItem.corrupted,
                     icon: pItem.icon,
                     sockets: pItem.sockets,
+                    history: pItem.history,
                     tabs: [{ i: tab.i, id: tab.id, colour: tab.colour, n: tab.n } as CompactTab]
                 } as TableItem;
 

@@ -12,6 +12,7 @@ export interface PoeWatchCombinedPriceItemData {
     baseIsElder?: boolean;
     stackSize?: number;
     fullname?: string;
+    history?: Array<number>;
     name: string;
     type: string;
     frame: number;

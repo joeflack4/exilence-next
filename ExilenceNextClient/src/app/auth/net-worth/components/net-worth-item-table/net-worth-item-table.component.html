@@ -42,8 +42,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header="level"> Level </th>
                 <td mat-cell *matCellDef="let element">
                     <span *ngIf="element.level > 0" class="level">{{element.level}}</span>
-                    <span *ngIf="element.level == 0 || element.level == undefined"
-                        class="not-available">n/a</span>
+                    <span *ngIf="element.level == 0 || element.level == undefined" class="not-available">n/a</span>
                 </td>
             </ng-container>
 
@@ -61,6 +60,17 @@
                         / {{element.totalStacksize}}
                     </ng-container>
                 </td>
+            </ng-container>
+
+            <ng-container matColumnDef="history">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header="history"> Price history </th>
+                <td mat-cell *matCellDef="let element"><span>
+                        <!-- <x-chartist *ngIf="element && element.history"
+                            [type]="type"
+                            [data]="formatPriceHistory(element.history)"
+                            [options]="options"
+                      ></x-chartist> -->
+                    </span></td>
             </ng-container>
 
             <ng-container matColumnDef="calculated">

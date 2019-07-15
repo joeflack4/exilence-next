@@ -32,6 +32,7 @@ import { ItemPricingService } from './providers/item-pricing.service';
 import { PoeNinjaService } from './providers/poe-ninja.service';
 import { PoeWatchService } from './providers/poe-watch.service';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { ChartistModule } from 'ng-chartist';
 
 @NgModule({
   declarations: [NetWorthPageComponent, TopBarComponent, NetWorthGraphComponent, NetWorthItemTableComponent],
@@ -50,6 +51,7 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
     MatFormFieldModule,
     MatDatepickerModule,
     NetWorthRoutingModule,
+    ChartistModule,
     StoreModule.forFeature('netWorthState', reducer),
     EffectsModule.forFeature([
       NetWorthEffects

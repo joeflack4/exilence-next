@@ -19,5 +19,6 @@ export interface TableItem {
     corrupted: boolean;
     icon: string;
     sockets: number;
+    history: Array<number>;
 }
 

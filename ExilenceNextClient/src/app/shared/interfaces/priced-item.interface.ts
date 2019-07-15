@@ -24,5 +24,6 @@ export interface PricedItem {
     sockets: number;
     variant: string;
     tier: number;
+    history: Array<number>;
 }
 

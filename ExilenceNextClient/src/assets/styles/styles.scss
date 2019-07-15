@@ -232,6 +232,23 @@ a {
 }
 /* #endregion */
 
+/* #region Chartist overrides */
+.ct-series-a .ct-bar,
+.ct-series-a .ct-line,
+.ct-series-a .ct-point,
+.ct-series-a .ct-slice-donut {
+  stroke: $primary;
+  stroke-width: 2px;
+}
+.ct-series-b .ct-bar,
+.ct-series-b .ct-line,
+.ct-series-b .ct-point,
+.ct-series-b .ct-slice-donut {
+  stroke: $accent;
+  stroke-width: 2px;
+}
+/* #endregion */
+
 /* #region Material overrides */
 .mat-snack-bar-container {
   max-width: 60vw !important;
@@ -261,6 +278,11 @@ a {
 .mat-cell {
   font-size: 12px !important;
   white-space: nowrap;
+  white-space: nowrap;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 10px 0 10px !important;
 }
 
 .mat-paginator {

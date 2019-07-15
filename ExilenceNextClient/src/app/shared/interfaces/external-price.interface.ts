@@ -14,6 +14,7 @@ export interface ExternalPrice {
     baseType?: string;
     links?: number;
     quality?: number;
+    history?: Array<number>;
     ilvl?: number;
     level?: number;
     corrupted?: boolean;

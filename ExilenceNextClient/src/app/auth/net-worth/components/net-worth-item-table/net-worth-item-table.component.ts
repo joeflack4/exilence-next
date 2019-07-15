@@ -7,6 +7,8 @@ import { TabSelection } from '../../../../shared/interfaces/tab-selection.interf
 import { PricedItem } from '../../../../shared/interfaces/priced-item.interface';
 import { TableItem } from '../../../../shared/interfaces/table-item.interface';
 import { TableHelper } from '../../../../shared/helpers/table.helper';
+import { ChartType } from 'ng-chartist';
+import { IChartistData, ILineChartOptions } from 'chartist';
 
 @Component({
   selector: 'app-net-worth-item-table',
@@ -23,8 +25,26 @@ export class NetWorthItemTableComponent implements OnInit {
   public stashtabs$: Observable<Tab[]>;
   public pageSizeOptions: number[] = [5, 10, 25, 100];
   public displayedColumns: string[] = ['icon', 'name', 'tab', 'links', 'quality', 'level', 'corrupted',
-    'stackSize', 'calculated', 'total'];
+    'stackSize', 'history', 'calculated', 'total'];
   dataSource: any;
+
+  type: ChartType = 'Line';
+  options: ILineChartOptions = {
+    height: 65,
+    width: 150,
+    showPoint: false,
+    fullWidth: true,
+    axisX: {
+      offset: 0,
+      showGrid: false,
+      showLabel: false
+    },
+    axisY: {
+      showGrid: false,
+      offset: 0,
+      showLabel: false
+    }
+  };
 
   constructor() { }
 
@@ -37,6 +57,12 @@ export class NetWorthItemTableComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataSource.filter = this.filterValue;
+  }
+
+  formatPriceHistory(priceHistory: Array<number>) {
+    priceHistory.map(ph => ph === null ? ph = 0 : ph);
+    const chartData = { labels: [], series: [priceHistory] };
+    return chartData;
   }
 
   applyFilter(filterValue: string) {

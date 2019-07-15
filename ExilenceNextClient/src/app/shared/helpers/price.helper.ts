@@ -28,6 +28,7 @@ export class PriceHelper {
             corrupted: item.gemIsCorrupted,
             calculated: 0,
             totalStacksize: item.stackSize,
+            history: item.history !== undefined ? item.history : [],
             tier: item.tier
         } as ExternalPrice;
     }
@@ -44,6 +45,7 @@ export class PriceHelper {
             level: item.gemLevel,
             frameType: item.itemClass,
             baseType: item.baseType,
+            history: item.sparkline.data !== undefined ? item.sparkline.data : [],
             ilvl: item.levelRequired,
             corrupted: item.corrupted,
             totalStacksize: item.stackSize,
@@ -58,6 +60,7 @@ export class PriceHelper {
         return {
             name: item.currencyTypeName,
             calculated: item.chaosEquivalent,
+            history: item.receiveSparkLine.data !== undefined ? item.receiveSparkLine.data : [],
             icon: details !== undefined ? details.icon : undefined
         } as ExternalPrice;
     }
@@ -70,6 +73,7 @@ export class PriceHelper {
             item.mode = price.mode;
             item.min = price.min;
             item.median = price.median;
+            item.history = price.history;
         }
         return item;
     }
