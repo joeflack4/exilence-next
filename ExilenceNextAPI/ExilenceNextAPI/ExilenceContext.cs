@@ -9,7 +9,6 @@ namespace ExilenceNextAPI
         { }
 
         public DbSet<Connection> Connections { get; set; }
-        //public DbSet<Group> Groups { get; set; }
         public DbSet<PricedItem> Items { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Snapshot> Snapshots { get; set; }

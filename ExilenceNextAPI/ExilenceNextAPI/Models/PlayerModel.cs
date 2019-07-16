@@ -7,7 +7,6 @@ namespace ExilenceNextAPI.Models
 {
     public class PlayerModel
     {
-        public int Id { get; set; }
         public string AccountName { get; set; }
         public List<PlayerLeagueModel> Leagues { get; set; }
     }

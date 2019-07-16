@@ -7,5 +7,9 @@ namespace ExilenceNextAPI.Models
 {
     public class PlayerLeagueModel
     {
+        public string Name { get; set; }
+        public List<SelectedTabModel> SelectedTabs { get; set; }
+        public List<SnapshotModel> Snapshots { get; set; }
+        public List<TabModel> Tabs { get; set; }
     }
 }

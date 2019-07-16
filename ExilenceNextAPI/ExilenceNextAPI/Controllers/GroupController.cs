@@ -48,7 +48,7 @@ namespace ExilenceNextAPI.Controllers
         //}
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] string test)
+        public async Task<IActionResult> Put([FromBody] PlayerModel player)
         {
 
 
