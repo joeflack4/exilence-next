@@ -1,42 +1,32 @@
-import 'rxjs/add/operator/takeUntil';
-
-import { Component, OnDestroy, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { Observable, Subject, of, timer } from 'rxjs';
-import { map, skip, debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, of, Subject, timer } from 'rxjs';
 import 'rxjs/add/operator/switchMap';
-import { AppState, NetWorthState } from '../../../../app.states';
+import 'rxjs/add/operator/takeUntil';
+import { distinctUntilChanged, filter, map, skip, switchMap } from 'rxjs/operators';
+import { NetWorthState } from '../../../../app.states';
+import { StorageService } from '../../../../core/providers/storage.service';
 import { ColourHelper } from '../../../../shared/helpers/colour.helper';
 import { SnapshotHelper } from '../../../../shared/helpers/snapshot.helper';
+import { TableHelper } from '../../../../shared/helpers/table.helper';
 import { ApplicationSession } from '../../../../shared/interfaces/application-session.interface';
 import { ChartSeries } from '../../../../shared/interfaces/chart.interface';
 import { Snapshot } from '../../../../shared/interfaces/snapshot.interface';
 import { CompactTab, Tab } from '../../../../shared/interfaces/stash.interface';
 import { TabSelection } from '../../../../shared/interfaces/tab-selection.interface';
-import { selectApplicationSessionLeague, selectApplicationSessionModuleIndex, selectApplicationSession } from '../../../../store/application/application.selectors';
-import {
-  selectSnapshotsByLeague,
-  selectTabsByIds,
-  selectTabsByLeague,
-  selectTabSelectionByLeague,
-  selectTotalValue,
-  selectSelectedTabsValue,
-  selectLastSnapshotByLeague,
-  getNetWorthState,
-} from '../../../../store/net-worth/net-worth.selectors';
+import { TableItem } from '../../../../shared/interfaces/table-item.interface';
+import { selectApplicationSessionLeague, selectApplicationSessionModuleIndex } from '../../../../store/application/application.selectors';
+import { getNetWorthState, selectLastSnapshotByLeague, selectSelectedTabsValue, selectSnapshotsByLeague, selectTabsByIds, selectTabsByLeague, selectTabSelectionByLeague, selectTotalValue } from '../../../../store/net-worth/net-worth.selectors';
+import { NetWorthItemTableComponent } from '../../components/net-worth-item-table/net-worth-item-table.component';
 import { ItemPricingService } from '../../providers/item-pricing.service';
 import { SnapshotService } from '../../providers/snapshot.service';
-import * as netWorthActions from './../../../../store/net-worth/net-worth.actions';
 import * as applicationActions from './../../../../store/application/application.actions';
-import { StorageService } from '../../../../core/providers/storage.service';
-import { TableHelper } from '../../../../shared/helpers/table.helper';
-import { PricedItem } from '../../../../shared/interfaces/priced-item.interface';
-import { NetWorthItemTableComponent } from '../../components/net-worth-item-table/net-worth-item-table.component';
-import { TableItem } from '../../../../shared/interfaces/table-item.interface';
-import { TranslateService } from '@ngx-translate/core';
-import { Actions, ofType } from '@ngrx/effects';
+import * as netWorthActions from './../../../../store/net-worth/net-worth.actions';
+
 
 @Component({
   selector: 'app-net-worth-page',
@@ -80,7 +70,7 @@ export class NetWorthPageComponent implements OnInit, OnDestroy {
   @ViewChild(NetWorthItemTableComponent, undefined) itemTable: NetWorthItemTableComponent;
 
   constructor(
-    private netWorthStore: Store<AppState>,
+    private netWorthStore: Store<NetWorthState>,
     private appStore: Store<ApplicationSession>,
     private storageMap: StorageMap,
     private snapshotService: SnapshotService,
@@ -122,10 +112,10 @@ export class NetWorthPageComponent implements OnInit, OnDestroy {
       ofType(netWorthActions.NetWorthActionTypes.LoadStateFromStorageFail,
         netWorthActions.NetWorthActionTypes.LoadStateFromStorageSuccess)).mergeMap(() =>
           this.netWorthStore.select(getNetWorthState)
-          .pipe(distinctUntilChanged(), skip(1)).takeUntil(this.destroy$)).subscribe((state: NetWorthState) => {
-            console.log('persist nw state');
-            this.storageMap.set('netWorthState', state).takeUntil(this.destroy$).subscribe();
-          });
+            .pipe(distinctUntilChanged(), skip(1)).takeUntil(this.destroy$)).subscribe((state: NetWorthState) => {
+              console.log('persist nw state');
+              this.storageMap.set('netWorthState', state).takeUntil(this.destroy$).subscribe();
+            });
   }
 
   ngOnInit() {

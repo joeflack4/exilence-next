@@ -3,11 +3,10 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TranslateService } from '@ngx-translate/core';
-import { compare } from 'fast-json-patch';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
-import { delay, distinctUntilChanged, pairwise, skip, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, skip } from 'rxjs/operators';
 import { ApplicationState, GroupState } from './app.states';
 import { SnapshotProgressSnackbarComponent } from './core/components/snapshot-progress-snackbar/snapshot-progress-snackbar.component';
 import { ElectronService } from './core/providers/electron.service';
@@ -18,7 +17,6 @@ import { BrowserHelper } from './shared/helpers/browser.helper';
 import * as applicationActions from './store/application/application.actions';
 import { getApplicationState } from './store/application/application.selectors';
 import * as groupActions from './store/group/group.actions';
-import { getGroupState } from './store/group/group.selectors';
 
 
 @Component({
@@ -60,25 +58,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.actions$.pipe(
       ofType(applicationActions.ApplicationActionTypes.LoadStateFromStorageFail,
         applicationActions.ApplicationActionTypes.LoadStateFromStorageSuccess)).mergeMap(() =>
-          this.appStore.pipe(skip(2)).takeUntil(this.destroy$)).subscribe((state: ApplicationState) => {
-            this.storageMap.set('appState', state).takeUntil(this.destroy$).subscribe();
-          });
+          this.appStore.select(getApplicationState)
+            .pipe(distinctUntilChanged(), skip(1)).takeUntil(this.destroy$)).subscribe((state: ApplicationState) => {
+              console.log('persist app state');
+              this.storageMap.set('appState', state).takeUntil(this.destroy$).subscribe();
+            });
 
     // generate and send patch of differences on updates
-    this.groupStore.select(getGroupState).pipe(delay(5000), startWith({}), pairwise()).subscribe((state) => {
-      const previousState = state[0] as GroupState;
-      const newState = state[1] as GroupState;
+    // this.groupStore.select(getGroupState).pipe(delay(5000), startWith({}), pairwise()).subscribe((state) => {
+    //   const previousState = state[0] as GroupState;
+    //   const newState = state[1] as GroupState;
 
-      const operations = compare(previousState, newState);
+    //   const operations = compare(previousState, newState);
 
-      this.groupStore.dispatch(new groupActions.Patch({ operations }));
+    //   this.groupStore.dispatch(new groupActions.Patch({ operations }));
 
-    });
-    this.appStore.select(getApplicationState)
-      .pipe(distinctUntilChanged(), skip(1)).takeUntil(this.destroy$).subscribe((state: ApplicationState) => {
-        console.log('persist app state');
-        this.storageMap.set('appState', state).takeUntil(this.destroy$).subscribe();
-      });
+    // });
+
   }
 
   ngOnInit() {

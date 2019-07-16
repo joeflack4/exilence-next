@@ -47,5 +47,13 @@ namespace ExilenceNextAPI.Controllers
 
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] string test)
+        {
+
+
+            return Ok("Put OK");
+        }
+
     }
 }
