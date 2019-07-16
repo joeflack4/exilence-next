@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TranslateService } from '@ngx-translate/core';
 import { compare } from 'fast-json-patch';
 import * as moment from 'moment';
-import { pairwise, skip, startWith, delay } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import 'rxjs/add/operator/mergeMap';
+import { delay, pairwise, skip, startWith } from 'rxjs/operators';
 import { AppState, GroupState } from './app.states';
 import { SnapshotProgressSnackbarComponent } from './core/components/snapshot-progress-snackbar/snapshot-progress-snackbar.component';
 import { ElectronService } from './core/providers/electron.service';
@@ -13,9 +16,6 @@ import { SignalrService } from './core/providers/signalr.service';
 import { StorageService } from './core/providers/storage.service';
 import { BrowserHelper } from './shared/helpers/browser.helper';
 import * as applicationActions from './store/application/application.actions';
-import { ofType, Actions } from '@ngrx/effects';
-import { Subject } from 'rxjs';
-import 'rxjs/add/operator/mergeMap';
 import * as groupActions from './store/group/group.actions';
 import { getGroupState } from './store/group/group.selectors';
 
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private appStore: Store<AppState>,
     private jsonService: JsonService,
     private storageService: StorageService,
-    private actions$: Actions
+    private actions$: Actions,
     private signalrService: SignalrService,
     private groupStore: Store<GroupState>
   ) {
