@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, first } from 'rxjs/operators';
 
 import { NetWorthState, ApplicationState } from '../../app.states';
 import { ItemPricingService } from '../../auth/net-worth/providers/item-pricing.service';
@@ -111,6 +111,23 @@ export class NetWorthEffects {
             { title: 'ERROR.FETCH_PRICES_FAIL_TITLE', message: 'ERROR.FETCH_PRICES_FAIL_DESC' }));
         }))
     ))
+  );
+
+  fetchPricesSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(netWorthActions.NetWorthActionTypes.FetchItemsForSnapshotSuccess),
+    map((res: any) => {
+
+      return new notificationActions.AddNotification({
+        notification:
+          {
+            title: 'INFORMATION.FETCH_PRICES_SUCCESS_TITLE',
+            description: 'INFORMATION.FETCH_PRICES_SUCCESS_TITLE',
+            type: NotificationType.Information
+          } as Notification
+      });
+    }
+    )
+  )
   );
 
   fetchPricesFail$ = createEffect(() => this.actions$.pipe(
@@ -249,7 +266,7 @@ export class NetWorthEffects {
   createSnapshot$ = createEffect(() => this.actions$.pipe(
     ofType(netWorthActions.NetWorthActionTypes.CreateSnapshot),
     mergeMap((res: any) => this.appStore.select(selectApplicationSessionLeague)
-      .mergeMap((league: string) => of(this.snapshotService.createTabSnapshots(res.payload.tabs))
+      .pipe(first()).mergeMap((league: string) => of(this.snapshotService.createTabSnapshots(res.payload.tabs))
         .pipe(
           map((tabSnapshots: TabSnapshot[]) => {
             return new netWorthActions.CreateSnapshotSuccess(

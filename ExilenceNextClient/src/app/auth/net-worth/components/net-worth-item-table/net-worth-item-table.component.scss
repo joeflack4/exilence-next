@@ -1,7 +1,23 @@
 @import "./../../../../../assets/styles/variables";
 
-.item-filter {
+.table-tools-container {
+  display: flex;
   width: 100%;
+  .item-filter-container {
+    width: calc(100% - #{$main-btn-width});
+    .item-filter {
+      width: 100%;
+    }
+  }
+
+  .export-btn-container {
+    width: $main-btn-width;
+    padding-left: 10px;
+    button {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
 }
 
 .net-worth-table-outer-container {

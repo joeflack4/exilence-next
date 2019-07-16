@@ -1,18 +1,77 @@
 @import "./../../../../../assets/styles/variables";
 
 .top-bar {
-    height: $top-bar-height;
-    margin-bottom: $main-margin;
+  height: $top-bar-height;
+  margin-bottom: $main-margin;
+  margin-top: -$main-margin;
+  .top-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    .mat-form-field {
+      padding-top: 1.25rem;
+    }
     .config {
-        &.specific-config {
-            float: left;
-            width: calc(100% - #{$global-config-width})
+      &.specific-config {
+        display: flex;
+        justify-content: flex-start;
+        width: calc(100% - #{$global-config-width});
+      }
+      &.global-config {
+        width: $global-config-width;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .last-snapshot-timestamp {
+    font-size: 12px;
+    min-width: 200px;
+    text-align: right;
+    color: $secondary-font-color;
+  }
+
+  .networth-wrapper {
+    float: left;
+    margin-right: $main-margin;
+    min-width: 100px;
+    margin-top: -5px;
+    .title {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      transform-origin: 0 0;
+      font-size: 0.720rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .networth-inner-wrapper {
+      margin-top: 5px;
+      .networth {
+        font-size: 14px;
+        color: $chaos-orb-color;
+        > * {
+          color: $chaos-orb-color;
         }
-        &.global-config {
-            width: $global-config-width;
-            float: right;
-            display: flex;
-            justify-content: flex-end;
+        &.with-icon {
+          > * {
+            vertical-align: middle;
+          }
         }
-   }
+      }
+
+      .networth-placeholder {
+        font-size: 14px;
+        color: $networth-placeholder-color;
+      }
+    }
+  }
 }

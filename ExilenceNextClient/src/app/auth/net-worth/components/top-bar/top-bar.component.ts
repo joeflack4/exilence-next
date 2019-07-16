@@ -12,6 +12,8 @@ import { selectNetWorthStatus } from '../../../../store/net-worth/net-worth.sele
 import { NetWorthState } from '../../../../app.states';
 import { NetWorthStatus } from '../../../../shared/interfaces/net-worth-status.interface';
 import { Store } from '@ngrx/store';
+import { SnapshotService } from '../../providers/snapshot.service';
+import { Snapshot } from '../../../../shared/interfaces/snapshot.interface';
 
 @Component({
   selector: 'app-top-bar',
@@ -25,13 +27,19 @@ export class TopBarComponent implements OnInit, OnDestroy {
   @Input() selectedTabs$: Observable<TabSelection[]>;
   @Input() playerList$: Observable<any[]>;
   @Input() moduleIndex$: Observable<number>;
+  @Input() selectedTabsValue$: Observable<number>;
+  @Input() totalValue$: Observable<number>;
+  @Input() lastSnapshot$: Observable<Snapshot>;
   @Output() tabSelectionChanged: EventEmitter<string[]> = new EventEmitter;
 
   public stashtabs = new FormControl();
   public players = new FormControl();
   public status$: Observable<NetWorthStatus>;
 
-  constructor(public router: Router, private netWorthStore: Store<NetWorthState>) {
+  public selection: any;
+
+  constructor(public router: Router, private netWorthStore: Store<NetWorthState>,
+    private snapshotService: SnapshotService) {
     this.status$ = this.netWorthStore.select(selectNetWorthStatus).takeUntil(this.destroy$);
   }
 
@@ -48,6 +56,20 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
   tabsChanged(event: MatSelectChange) {
     this.tabSelectionChanged.emit(event.value);
+  }
+
+  getFromNow(snapshot: Snapshot) {
+    if (snapshot !== undefined) {
+      return moment(snapshot.timestamp).fromNow();
+    }
+  }
+
+  isSelected(selection: TabSelection[], id: string) {
+    return selection.find(s => s.tabId === id) !== undefined;
+  }
+
+  doSnapshot() {
+    this.snapshotService.snapshot();
   }
 
 }

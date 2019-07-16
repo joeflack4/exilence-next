@@ -10,6 +10,8 @@ import {
   MatSidenavModule,
   MatToolbarModule,
   MatBottomSheetModule,
+  MatTabsModule,
+  MatDividerModule,
 } from '@angular/material';
 import { NgPipesModule } from 'ngx-pipes';
 import { SharedModule } from '../shared/shared.module';
@@ -37,6 +39,7 @@ import { SignalrService } from './providers/signalr.service';
   imports: [SharedModule,
     MatIconModule,
     MatButtonModule,
+    MatTabsModule,
     MatToolbarModule,
     MatSidenavModule,
     MatExpansionModule,
@@ -45,6 +48,7 @@ import { SignalrService } from './providers/signalr.service';
     MatInputModule,
     MatBottomSheetModule,
     NgPipesModule,
+    MatDividerModule,
     MatProgressBarModule
   ],
   declarations: [HeaderPageComponent, SettingsBottomSheetPageComponent, SettingsBottomSheetContentComponent,

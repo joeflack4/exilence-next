@@ -48,9 +48,15 @@ a {
 }
 
 .mat-tab-group {
-  position: absolute;
-  padding: 10px 25px 25px 25px;
-  width: calc(100% - #{$main-padding}* 2);
+  &.net-worth-tab-group {
+    position: absolute;
+    padding: 10px 25px 25px 25px;
+    width: calc(100% - #{$main-padding}* 2);
+  }
+}
+
+.form-group {
+  padding-bottom: 1.25em;
 }
 
 .spinner-container {

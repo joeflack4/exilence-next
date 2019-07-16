@@ -5,7 +5,13 @@ import * as url from 'url';
 
 let win, serve;
 const args = process.argv.slice(1);
+const ipcMain = require('electron').ipcMain;
 serve = args.some(val => val === '--serve');
+
+ipcMain.on('relaunch', () => {
+  app.quit();
+  app.relaunch();
+});
 
 function createWindow() {
 

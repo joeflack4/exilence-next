@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,18 +13,19 @@ import { SignalrService } from './core/providers/signalr.service';
 import { StorageService } from './core/providers/storage.service';
 import { BrowserHelper } from './shared/helpers/browser.helper';
 import * as applicationActions from './store/application/application.actions';
+import { ofType, Actions } from '@ngrx/effects';
+import { Subject } from 'rxjs';
+import 'rxjs/add/operator/mergeMap';
 import * as groupActions from './store/group/group.actions';
 import { getGroupState } from './store/group/group.selectors';
-
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('progressSnackbar', undefined) progressSnackbar: SnapshotProgressSnackbarComponent;
 
   constructor(public electronService: ElectronService,
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
     private appStore: Store<AppState>,
     private jsonService: JsonService,
     private storageService: StorageService,
+    private actions$: Actions
     private signalrService: SignalrService,
     private groupStore: Store<GroupState>
   ) {
@@ -53,9 +55,12 @@ export class AppComponent implements OnInit {
     this.appStore.dispatch(new applicationActions.LoadStateFromStorage());
 
     // save state to storage on changes
-    this.appStore.pipe(skip(1)).subscribe((state: AppState) => {
-      this.storageMap.set('appState', state.applicationState).subscribe();
-    });
+    this.actions$.pipe(
+      ofType(applicationActions.ApplicationActionTypes.LoadStateFromStorageFail,
+        applicationActions.ApplicationActionTypes.LoadStateFromStorageSuccess)).mergeMap(() =>
+          this.appStore.pipe(skip(2)).takeUntil(this.destroy$)).subscribe((state: AppState) => {
+            this.storageMap.set('appState', state.applicationState).takeUntil(this.destroy$).subscribe();
+          });
 
     // generate and send patch of differences on updates
     this.groupStore.select(getGroupState).pipe(delay(5000), startWith({}), pairwise()).subscribe((state) => {
@@ -71,5 +76,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.progressSnackbar.openSnackBar();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

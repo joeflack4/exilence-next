@@ -5,6 +5,9 @@
   "ACCOUNT": {
     "LOGOUT": "Logout"
   },
+  "ACTIONS": {
+    "SNAPSHOT": "Create snapshot"
+  },
   "SESSION": {
     "CLEAR": "Clear storage"
   },
@@ -40,6 +43,8 @@
     "COOKIE_SET_DESC": "A cookie was created with your session id",
     "FETCH_TABS_SUCCESS_TITLE": "Fetched tabs",
     "FETCH_TABS_SUCCESS_DESC": "All stash tabs was correctly fetched",
+    "FETCH_PRICES_SUCCESS_TITLE": "Fetched prices from external sources",
+    "FETCH_PRICES_SUCCESS_DESC": "Prices were fetched from chosen external sources",
     "FETCH_ITEMS_SUCCESS_TITLE": "Fetched items in tabs",
     "FETCH_ITEMS_SUCCESS_DESC": "All items in your stash tabs was correctly fetched",
     "NO_STORAGE_TITLE": "No local storage found",
@@ -64,6 +69,11 @@
     "SESSION_VALID_DESC": "Session was validated, your account credentials are correct"
   },
   "NETWORTH": {
+    "NO_STASHTABS": "No stashtabs fetched",
+    "LAST_SNAPSHOT_LABEL_PREFIX": "Updated",
+    "CURRENT_TOTAL": "Total value",
+    "CURRENT_SELECTED": "Selected value",
+    "CURRENT_GAIN": "Gain per hour",
     "TOTAL_VALUE": "Total value",
     "SELECT_STASHTABS": "Select stash tabs",
     "GRAPHS": {
@@ -80,5 +90,15 @@
     "ITEMS": {
       "HEADER": "Items"
     }
+  },
+  "SETTINGS": {
+    "GENERAL_HEADER": "General",
+    "NETWORTH_HEADER": "Net worth"
+  },
+  "GLOBAL": {
+    "SELECT_PLAYERS": "Select players"
+  },
+  "EXPORT": {
+    "BUTTON_TITLE": "Export to .csv"
   }
 }
