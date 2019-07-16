@@ -10,11 +10,7 @@ namespace ExilenceNextAPI.Entities
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public League League { get; set; }
-        [Required]
         public DateTime Timestamp { get; set; }
-        [Required]
         public List<TabSnapshot> TabSnapshots { get; set; }
     }
 }

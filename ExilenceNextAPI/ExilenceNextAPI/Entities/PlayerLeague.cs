@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace ExilenceNextAPI.Entities
 {
-    public class Group
+    public class PlayerLeague
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public List<Player> Players  { get; set; }
+        public List<SelectedTab> SelectedTabs { get; set; }
+        public List<Snapshot> Snapshots { get; set; }
+        public List<Tab> Tabs { get; set; }
     }
 }

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ExilenceNextAPI.Entities
 {
-    public class History
+    public class SelectedTab
     {
+
         [Key]
         public int Id { get; set; }
         [Required]
-        public List<Snapshot> Snapshots { get; set; }
+        public string TabId { get; set; }
     }
 }

@@ -4,65 +4,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ExilenceNextAPI.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Groups",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Groups", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Histories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Histories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stashes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stashes", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Account = table.Column<string>(nullable: false),
-                    GroupId = table.Column<int>(nullable: true)
+                    AccountName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Players_Groups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,7 +42,7 @@ namespace ExilenceNextAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Leagues",
+                name: "PlayerLeagues",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -96,11 +52,31 @@ namespace ExilenceNextAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leagues", x => x.Id);
+                    table.PrimaryKey("PK_PlayerLeagues", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Leagues_Players_PlayerId",
+                        name: "FK_PlayerLeagues_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SelectedTab",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TabId = table.Column<string>(nullable: false),
+                    PlayerLeagueId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SelectedTab", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SelectedTab_PlayerLeagues_PlayerLeagueId",
+                        column: x => x.PlayerLeagueId,
+                        principalTable: "PlayerLeagues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -111,25 +87,18 @@ namespace ExilenceNextAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LeagueId = table.Column<int>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    HistoryId = table.Column<int>(nullable: true)
+                    PlayerLeagueId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Snapshots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Snapshots_Histories_HistoryId",
-                        column: x => x.HistoryId,
-                        principalTable: "Histories",
+                        name: "FK_Snapshots_PlayerLeagues_PlayerLeagueId",
+                        column: x => x.PlayerLeagueId,
+                        principalTable: "PlayerLeagues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Snapshots_Leagues_LeagueId",
-                        column: x => x.LeagueId,
-                        principalTable: "Leagues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,24 +114,17 @@ namespace ExilenceNextAPI.Migrations
                     Hidden = table.Column<bool>(nullable: false),
                     Selected = table.Column<bool>(nullable: false),
                     Colour = table.Column<string>(nullable: false),
-                    LeagueId = table.Column<int>(nullable: false),
-                    StashId = table.Column<int>(nullable: true)
+                    LeagueId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tabs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tabs_Leagues_LeagueId",
+                        name: "FK_Tabs_PlayerLeagues_LeagueId",
                         column: x => x.LeagueId,
-                        principalTable: "Leagues",
+                        principalTable: "PlayerLeagues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tabs_Stashes_StashId",
-                        column: x => x.StashId,
-                        principalTable: "Stashes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,34 +200,24 @@ namespace ExilenceNextAPI.Migrations
                 column: "TabId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Leagues_PlayerId",
-                table: "Leagues",
+                name: "IX_PlayerLeagues_PlayerId",
+                table: "PlayerLeagues",
                 column: "PlayerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_GroupId",
-                table: "Players",
-                column: "GroupId");
+                name: "IX_SelectedTab_PlayerLeagueId",
+                table: "SelectedTab",
+                column: "PlayerLeagueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Snapshots_HistoryId",
+                name: "IX_Snapshots_PlayerLeagueId",
                 table: "Snapshots",
-                column: "HistoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Snapshots_LeagueId",
-                table: "Snapshots",
-                column: "LeagueId");
+                column: "PlayerLeagueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tabs_LeagueId",
                 table: "Tabs",
                 column: "LeagueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tabs_StashId",
-                table: "Tabs",
-                column: "StashId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TabSnapshots_SnapshotId",
@@ -282,6 +234,9 @@ namespace ExilenceNextAPI.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
+                name: "SelectedTab");
+
+            migrationBuilder.DropTable(
                 name: "TabSnapshots");
 
             migrationBuilder.DropTable(
@@ -291,19 +246,10 @@ namespace ExilenceNextAPI.Migrations
                 name: "Snapshots");
 
             migrationBuilder.DropTable(
-                name: "Stashes");
-
-            migrationBuilder.DropTable(
-                name: "Histories");
-
-            migrationBuilder.DropTable(
-                name: "Leagues");
+                name: "PlayerLeagues");
 
             migrationBuilder.DropTable(
                 name: "Players");
-
-            migrationBuilder.DropTable(
-                name: "Groups");
         }
     }
 }

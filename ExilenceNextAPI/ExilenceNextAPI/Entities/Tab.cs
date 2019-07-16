@@ -25,7 +25,7 @@ namespace ExilenceNextAPI.Entities
         [Required]
         public string Colour { get; set; }
         [Required]
-        public League League { get; set; }
+        public PlayerLeague League { get; set; }
         [Required]
         public List<PricedItem> Items { get; set; }
     }

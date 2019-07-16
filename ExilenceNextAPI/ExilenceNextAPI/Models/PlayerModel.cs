@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ExilenceNextAPI.Entities
+namespace ExilenceNextAPI.Models
 {
-    public class Player
+    public class PlayerModel
     {
-        [Key]
         public int Id { get; set; }
-        [Required]
         public string AccountName { get; set; }
-        public List<PlayerLeague> Leagues { get; set; }
-
+        public List<PlayerLeagueModel> Leagues { get; set; }
     }
 }

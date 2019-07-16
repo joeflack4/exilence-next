@@ -37,32 +37,21 @@ namespace ExilenceNextAPI.Migrations
                     b.ToTable("Connections");
                 });
 
-            modelBuilder.Entity("ExilenceNextAPI.Entities.Group", b =>
+            modelBuilder.Entity("ExilenceNextAPI.Entities.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("AccountName")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("ExilenceNextAPI.Entities.History", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Histories");
-                });
-
-            modelBuilder.Entity("ExilenceNextAPI.Entities.League", b =>
+            modelBuilder.Entity("ExilenceNextAPI.Entities.PlayerLeague", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,25 +66,7 @@ namespace ExilenceNextAPI.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Leagues");
-                });
-
-            modelBuilder.Entity("ExilenceNextAPI.Entities.Player", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Account")
-                        .IsRequired();
-
-                    b.Property<int?>("GroupId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Players");
+                    b.ToTable("PlayerLeagues");
                 });
 
             modelBuilder.Entity("ExilenceNextAPI.Entities.PricedItem", b =>
@@ -157,36 +128,39 @@ namespace ExilenceNextAPI.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("ExilenceNextAPI.Entities.SelectedTab", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PlayerLeagueId");
+
+                    b.Property<string>("TabId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerLeagueId");
+
+                    b.ToTable("SelectedTab");
+                });
+
             modelBuilder.Entity("ExilenceNextAPI.Entities.Snapshot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("HistoryId");
-
-                    b.Property<int>("LeagueId");
+                    b.Property<int?>("PlayerLeagueId");
 
                     b.Property<DateTime>("Timestamp");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HistoryId");
-
-                    b.HasIndex("LeagueId");
+                    b.HasIndex("PlayerLeagueId");
 
                     b.ToTable("Snapshots");
-                });
-
-            modelBuilder.Entity("ExilenceNextAPI.Entities.Stash", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Stashes");
                 });
 
             modelBuilder.Entity("ExilenceNextAPI.Entities.Tab", b =>
@@ -209,8 +183,6 @@ namespace ExilenceNextAPI.Migrations
 
                     b.Property<bool>("Selected");
 
-                    b.Property<int?>("StashId");
-
                     b.Property<string>("TabId")
                         .IsRequired();
 
@@ -220,8 +192,6 @@ namespace ExilenceNextAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LeagueId");
-
-                    b.HasIndex("StashId");
 
                     b.ToTable("Tabs");
                 });
@@ -253,18 +223,11 @@ namespace ExilenceNextAPI.Migrations
                         .HasForeignKey("PlayerId");
                 });
 
-            modelBuilder.Entity("ExilenceNextAPI.Entities.League", b =>
+            modelBuilder.Entity("ExilenceNextAPI.Entities.PlayerLeague", b =>
                 {
                     b.HasOne("ExilenceNextAPI.Entities.Player")
                         .WithMany("Leagues")
                         .HasForeignKey("PlayerId");
-                });
-
-            modelBuilder.Entity("ExilenceNextAPI.Entities.Player", b =>
-                {
-                    b.HasOne("ExilenceNextAPI.Entities.Group", "Group")
-                        .WithMany("Players")
-                        .HasForeignKey("GroupId");
                 });
 
             modelBuilder.Entity("ExilenceNextAPI.Entities.PricedItem", b =>
@@ -274,28 +237,26 @@ namespace ExilenceNextAPI.Migrations
                         .HasForeignKey("TabId");
                 });
 
+            modelBuilder.Entity("ExilenceNextAPI.Entities.SelectedTab", b =>
+                {
+                    b.HasOne("ExilenceNextAPI.Entities.PlayerLeague")
+                        .WithMany("SelectedTabs")
+                        .HasForeignKey("PlayerLeagueId");
+                });
+
             modelBuilder.Entity("ExilenceNextAPI.Entities.Snapshot", b =>
                 {
-                    b.HasOne("ExilenceNextAPI.Entities.History")
+                    b.HasOne("ExilenceNextAPI.Entities.PlayerLeague")
                         .WithMany("Snapshots")
-                        .HasForeignKey("HistoryId");
-
-                    b.HasOne("ExilenceNextAPI.Entities.League", "League")
-                        .WithMany("Snapshots")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlayerLeagueId");
                 });
 
             modelBuilder.Entity("ExilenceNextAPI.Entities.Tab", b =>
                 {
-                    b.HasOne("ExilenceNextAPI.Entities.League", "League")
+                    b.HasOne("ExilenceNextAPI.Entities.PlayerLeague", "League")
                         .WithMany("Tabs")
                         .HasForeignKey("LeagueId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ExilenceNextAPI.Entities.Stash")
-                        .WithMany("Tabs")
-                        .HasForeignKey("StashId");
                 });
 
             modelBuilder.Entity("ExilenceNextAPI.Entities.TabSnapshot", b =>
