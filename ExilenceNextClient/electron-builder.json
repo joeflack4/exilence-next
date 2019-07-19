@@ -20,9 +20,13 @@
         "!tslint.json"
     ],
   "win": {
-    "icon": "dist",
+    "icon": "dist/assets/img/app-icon.png",
+    "asar": true,
+    "publish": [
+      "github"
+    ],
     "target": [
-      "portable"
+      "nsis"
     ]
   },
   "mac": {
