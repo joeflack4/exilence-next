@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - 2019-07-19
+- Added auto updater
+- Optimized memory usage
+- Improvements to item pricing mechanism
+
 ## [0.0.3] - 2019-07-17
 - Fixed pricing of uniques, divination cards and base types
 

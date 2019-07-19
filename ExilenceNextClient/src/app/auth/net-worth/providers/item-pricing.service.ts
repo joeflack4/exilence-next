@@ -90,7 +90,6 @@ export class ItemPricingService {
                         && p.links === item.links
                         && p.frameType === 3
                         && p.corrupted === item.corrupted
-                        && p.quality === item.quality
                         && (p === item.variant || p.variant === undefined || p.variant === null));
                     break;
                 case 4: // gem
