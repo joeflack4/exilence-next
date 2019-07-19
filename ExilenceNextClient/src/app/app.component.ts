@@ -16,6 +16,8 @@ import { ofType, Actions } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
 import { getApplicationState } from './store/application/application.selectors';
+import { GithubService } from './core/providers/github.service';
+import { GithubRelease } from './shared/interfaces/github/github-release.interface';
 
 @Component({
   selector: 'app-root',
@@ -24,12 +26,14 @@ import { getApplicationState } from './store/application/application.selectors';
 })
 export class AppComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
+  latestVersion: string;
   @ViewChild('progressSnackbar', undefined) progressSnackbar: SnapshotProgressSnackbarComponent;
 
   constructor(public electronService: ElectronService,
     private storageMap: StorageMap,
     private translate: TranslateService,
     private appStore: Store<ApplicationState>,
+    private githubService: GithubService,
     private jsonService: JsonService,
     private storageService: StorageService,
     private actions$: Actions
@@ -53,10 +57,23 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(distinctUntilChanged(), skip(1)).takeUntil(this.destroy$).subscribe((state: ApplicationState) => {
         this.storageMap.set('appState', state).takeUntil(this.destroy$).subscribe();
       });
+
+    setTimeout(() => {
+      setInterval(() => this.checkForNewRelease(), 1000 * 60 * 2); // check every two min
+    }, 1000 * 60);
   }
 
   ngOnInit() {
     this.progressSnackbar.openSnackBar();
+  }
+
+  checkForNewRelease() {
+    if (this.electronService.isElectron()) {
+      this.githubService.getLatestRelease().takeUntil(this.destroy$).subscribe((release: GithubRelease) => {
+        console.log('Release found: ', release.name);
+        this.latestVersion = release.name;
+      });
+    }
   }
 
   ngOnDestroy() {

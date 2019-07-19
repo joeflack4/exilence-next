@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,9 @@ import { NetWorthState } from '../../../app.states.js';
 import { selectNetWorthStatus } from '../../../store/net-worth/net-worth.selectors.js';
 import { NetWorthStatus } from '../../../shared/interfaces/net-worth-status.interface.js';
 import { SnapshotService } from '../../../auth/net-worth/providers/snapshot.service.js';
+import { ExternalService } from '../../providers/external.service.js';
+import { GithubRelease } from '../../../shared/interfaces/github/github-release.interface.js';
+import { GithubService } from '../../providers/github.service.js';
 
 @Component({
   selector: 'app-header-page',
@@ -35,6 +38,8 @@ export class HeaderPageComponent implements OnInit, OnDestroy {
   public newNotifications$: Observable<Notification[]>;
 
   private snapshotting: boolean;
+
+  @Input() latestVersion: string;
 
   @Output() toggledNotifications: EventEmitter<any> = new EventEmitter;
   @Output() toggledSettings: EventEmitter<any> = new EventEmitter;
@@ -88,7 +93,6 @@ export class HeaderPageComponent implements OnInit, OnDestroy {
       });
     }
   }
-
 
   toggleSettings() {
     this.toggledSettings.emit();

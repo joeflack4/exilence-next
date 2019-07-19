@@ -3,6 +3,7 @@
   <span class="title">{{ 'APP.TITLE' | translate }}
     <span class="version">Build {{appVersion}}</span>
   </span>
+  <span class="update-available ml--15" *ngIf="appVersion < latestVersion" (click)="update()">Update available</span>
   <div class="pull--right btn-area">
     <div class="toolbar-content-container mr--15">
       <div (click)="toggleSidenav()" *ngLet="(newNotifications$ | async).length as notificationCount"

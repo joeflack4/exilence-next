@@ -34,6 +34,7 @@ import { JsonService } from './providers/json.service';
 import { SessionService } from './providers/session.service';
 import { SettingsBottomSheetPageComponent } from './containers/settings-bottom-sheet-page/settings-bottom-sheet-page.component';
 import { SettingsBottomSheetContentComponent } from './components/settings-bottom-sheet-content/settings-bottom-sheet-content.component';
+import { GithubService } from './providers/github.service';
 
 
 @NgModule({
@@ -59,7 +60,7 @@ import { SettingsBottomSheetContentComponent } from './components/settings-botto
   exports: [HeaderPageComponent, SettingsBottomSheetPageComponent, SettingsBottomSheetContentComponent,
     NotificationSidebarPageComponent, NotificationListComponent,
     SnapshotProgressSnackbarComponent, SnapshotProgressSnackbarSnackComponent],
-  providers: [CookieService, SessionService, ExternalService, JsonService],
+  providers: [GithubService, CookieService, SessionService, ExternalService, JsonService],
   entryComponents: [SnapshotProgressSnackbarSnackComponent, SettingsBottomSheetContentComponent]
 })
 

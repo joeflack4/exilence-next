@@ -75,6 +75,10 @@
         letter-spacing: 3px;
       }
     }
+
+    &.update-available {
+      color: $update-font-color;
+    }
   }
 }
 
