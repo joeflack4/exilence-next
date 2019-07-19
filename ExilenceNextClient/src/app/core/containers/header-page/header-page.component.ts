@@ -62,6 +62,12 @@ export class HeaderPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  updateAvailable() {
+    if (this.latestVersion !== undefined) {
+      return this.appVersion !== this.latestVersion.replace('a', '').replace('b', '');
+    }
+  }
+
   minimize() {
     this.electronService.remote.getCurrentWindow().minimize();
   }

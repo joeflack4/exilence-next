@@ -78,6 +78,7 @@
 
     &.update-available {
       color: $update-font-color;
+      cursor: pointer;
     }
   }
 }
