@@ -10,6 +10,8 @@
     "SESSIONID": "Session ID"
   },
   "ACTIONS": {
+    "RESTART": "Restart",
+    "LATER": "Later",
     "SNAPSHOT": "Take snapshot",
     "VALIDATE": "Validate",
     "CONTINUE": "Next",
@@ -115,5 +117,16 @@
   },
   "EXPORT": {
     "BUTTON_TITLE": "Export to .csv"
+  },
+  "UPDATER": {
+    "CHECKING_FOR_UPDATE": "Checking for update...",
+    "UPDATE_AVAILABLE": "Update available",
+    "UPDATE_NOT_AVAILABLE": "Update not available",
+    "ERROR_PREFIX": "Error in auto-updater",
+    "DOWNLOAD_SPEED_PREFIX": "Download speed",
+    "DOWNLOADED": "Downloaded",
+    "UPDATE_DOWNLOADED": "Update downloaded",
+    "DIALOG_TITLE": "Application Update",
+    "DIALOG_BODY": "A new version has been downloaded. Restart the application to apply the updates."
   }
 }
