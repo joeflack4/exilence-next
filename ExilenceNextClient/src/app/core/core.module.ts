@@ -35,8 +35,6 @@ import { SessionService } from './providers/session.service';
 import { SettingsBottomSheetPageComponent } from './containers/settings-bottom-sheet-page/settings-bottom-sheet-page.component';
 import { SettingsBottomSheetContentComponent } from './components/settings-bottom-sheet-content/settings-bottom-sheet-content.component';
 import { GithubService } from './providers/github.service';
-import { AutoUpdaterService } from './providers/auto-updater.service';
-
 
 @NgModule({
   imports: [SharedModule,
@@ -61,7 +59,7 @@ import { AutoUpdaterService } from './providers/auto-updater.service';
   exports: [HeaderPageComponent, SettingsBottomSheetPageComponent, SettingsBottomSheetContentComponent,
     NotificationSidebarPageComponent, NotificationListComponent,
     SnapshotProgressSnackbarComponent, SnapshotProgressSnackbarSnackComponent],
-  providers: [GithubService, CookieService, SessionService, ExternalService, JsonService, AutoUpdaterService],
+  providers: [GithubService, CookieService, SessionService, ExternalService, JsonService],
   entryComponents: [SnapshotProgressSnackbarSnackComponent, SettingsBottomSheetContentComponent]
 })
 

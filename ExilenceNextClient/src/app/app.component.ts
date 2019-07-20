@@ -18,7 +18,6 @@ import 'rxjs/add/operator/mergeMap';
 import { getApplicationState } from './store/application/application.selectors';
 import { GithubService } from './core/providers/github.service';
 import { GithubRelease } from './shared/interfaces/github/github-release.interface';
-import { AutoUpdaterService } from './core/providers/auto-updater.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private githubService: GithubService,
 
     // construct additional services
-    private autoUpdaterService: AutoUpdaterService,
     private jsonService: JsonService,
     private storageService: StorageService,
     private actions$: Actions
